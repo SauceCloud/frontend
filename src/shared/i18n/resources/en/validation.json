@@ -1,0 +1,24 @@
+{
+  "fields": {
+    "username": {
+      "USERNAME_REQUIRED": "Username is required",
+      "USERNAME_MIN": "Minimum 5 characters",
+      "USERNAME_MAX": "Maximum 32 characters",
+      "USERNAME_PATTERN": "Only Latin letters, numbers and underscores"
+    },
+    "birthDate": {
+      "BIRTHDATE_REQUIRED": "Date of birth is required",
+      "BIRTHDATE_ISO": "Invalid date format",
+      "BIRTHDATE_INVALID": "Invalid date of birth"
+    },
+    "email": {
+      "EMAIL_REQUIRED": "Email is required",
+      "EMAIL_INVALID": "Invalid email address"
+    },
+    "password": {
+      "PASSWORD_REQUIRED": "Password is required",
+      "PASSWORD_MIN": "Password must be at least 8 characters long",
+      "PASSWORD_WEAK": "Password must be at least 8 characters long and contain uppercase and lowercase letters, numbers, and special characters"
+    }
+  }
+}
