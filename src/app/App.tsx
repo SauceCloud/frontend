@@ -15,7 +15,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<RootLayout />}>
-        <Route index element={<p>Tell'em</p>} />
+        <Route index element={<p>Tell&lsquo;em</p>} />
       </Route>
     </Routes>
   )

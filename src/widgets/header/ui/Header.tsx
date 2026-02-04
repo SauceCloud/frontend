@@ -9,7 +9,7 @@ export const Header = () => {
           <Link to="/">
             <img src="/logo.svg" alt="Logo" width={70} height={70} />
           </Link>
-          <h1 className="text-4xl font-bold">Tell'em</h1>
+          <h1 className="text-4xl font-bold">Tell&lsquo;em</h1>
         </div>
 
         <AuthButtons />
