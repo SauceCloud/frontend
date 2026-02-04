@@ -10,17 +10,17 @@ export function applyApiErrorToForm<T extends FieldValues>(
     const fields = error.details?.fields ?? {}
 
     for (const [serverField, codes] of Object.entries(fields)) {
-      if (!codes.length) continue
+      if (codes.length === 0) continue
 
       const field = mapField?.(serverField)
       if (!field) continue
 
-      const msg = `validation:fields.${serverField}.${codes[0].code}`
-      form.setError(field, { type: 'server', message: msg })
+      const message = `validation:fields.${serverField}.${codes[0].code}`
+      form.setError(field, { type: 'server', message: message })
     }
     return
   }
 
-  const msg = `auth:errors.${error.code}`
-  form.setError('root', { type: 'server', message: msg })
+  const message = `auth:errors.${error.code}`
+  form.setError('root', { type: 'server', message: message })
 }

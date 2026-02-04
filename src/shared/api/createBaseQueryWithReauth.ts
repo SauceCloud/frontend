@@ -56,7 +56,10 @@ export function createBaseQueryWithReauth<S>({
     let result = await rawBaseQuery(args, api, extraOptions)
 
     if (!skipRefresh && result.error?.status === 401) {
-      if (!mutex.isLocked()) {
+      if (mutex.isLocked()) {
+        await mutex.waitForUnlock()
+        result = await rawBaseQuery(args, api, extraOptions)
+      } else {
         const release = await mutex.acquire()
         try {
           const refreshResult = await rawBaseQuery(
@@ -80,9 +83,6 @@ export function createBaseQueryWithReauth<S>({
         } finally {
           release()
         }
-      } else {
-        await mutex.waitForUnlock()
-        result = await rawBaseQuery(args, api, extraOptions)
       }
     }
 

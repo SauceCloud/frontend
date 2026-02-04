@@ -47,15 +47,15 @@ export const RegisterForm = ({ onSubmit }: Props) => {
         password,
       }).unwrap()
       onSubmit()
-    } catch (err) {
-      if (!isRtkqError(err)) {
+    } catch (error) {
+      if (!isRtkqError(error)) {
         form.setError('root', {
           type: 'server',
           message: 'auth:errors.INTERNAL_ERROR',
         })
         return
       }
-      applyApiErrorToForm(form, err.data)
+      applyApiErrorToForm(form, error.data)
     }
   }
 

@@ -1,12 +1,12 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 type AuthSessionState = {
-  accessToken: string | null
+  accessToken?: string
   isAuth: boolean
 }
 
 const initialState: AuthSessionState = {
-  accessToken: null,
+  accessToken: undefined,
   isAuth: false,
 }
 
@@ -19,7 +19,7 @@ export const authSessionSlice = createSlice({
       state.isAuth = true
     },
     logout(state) {
-      state.accessToken = null
+      state.accessToken = undefined
       state.isAuth = false
     },
   },

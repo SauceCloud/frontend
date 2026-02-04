@@ -28,15 +28,15 @@ export const LoginForm = ({ onSubmit }: Props) => {
     try {
       await login(data).unwrap()
       onSubmit()
-    } catch (err) {
-      if (!isRtkqError(err)) {
+    } catch (error) {
+      if (!isRtkqError(error)) {
         form.setError('root', {
           type: 'server',
           message: 'auth:errors.INTERNAL_ERROR',
         })
         return
       }
-      applyApiErrorToForm(form, err.data)
+      applyApiErrorToForm(form, error.data)
     }
   }
 

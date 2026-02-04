@@ -2,11 +2,11 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { IUser } from './types'
 
 type CurrentUserState = {
-  user: IUser | null
+  user?: IUser
 }
 
 const initialState: CurrentUserState = {
-  user: null,
+  user: undefined,
 }
 
 export const currentUserSlice = createSlice({
@@ -17,7 +17,7 @@ export const currentUserSlice = createSlice({
       state.user = action.payload
     },
     clearUser(state) {
-      state.user = null
+      state.user = undefined
     },
   },
 })

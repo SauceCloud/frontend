@@ -7,7 +7,7 @@ import App from './App.tsx'
 import { store } from './providers/store'
 import './styles/index.css'
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.querySelector('#root')!).render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
