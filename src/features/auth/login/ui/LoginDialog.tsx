@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Dialog,
   DialogContent,
@@ -15,16 +16,15 @@ type Props = {
 
 export const LoginDialog = ({ trigger }: Props) => {
   const [open, setOpen] = useState(false)
+  const { t } = useTranslation('auth')
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-106.25">
+      <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>Вход</DialogTitle>
-          <DialogDescription>
-            Укажите данные от своего аккаунта
-          </DialogDescription>
+          <DialogTitle>{t('login.title')}</DialogTitle>
+          <DialogDescription>{t('login.description')}</DialogDescription>
         </DialogHeader>
         <LoginForm onSubmit={() => setOpen(false)} />
       </DialogContent>

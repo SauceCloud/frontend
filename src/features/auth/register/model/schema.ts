@@ -15,19 +15,12 @@ export const formSchema = z.object({
   password: z
     .string('validation:fields.password.PASSWORD_REQUIRED')
     .min(8, 'validation:fields.password.PASSWORD_MIN')
-    .refine(password => /[A-Z]/.test(password), {
-      message: 'validation:fields.password.PASSWORD_WEAK',
-    })
-    .refine(password => /[a-z]/.test(password), {
-      message: 'validation:fields.password.PASSWORD_WEAK',
-    })
-    .refine(password => /[0-9]/.test(password), {
-      message: 'validation:fields.password.PASSWORD_WEAK',
-    })
     .refine(
-      password => /^[-#!$@£%^&*()_+|~=`{}[\]:";'<>?,./\\ ]$/.test(password),
-      {
-        message: 'validation:fields.password.PASSWORD_WEAK',
-      },
+      p =>
+        /[A-Z]/.test(p) &&
+        /[a-z]/.test(p) &&
+        /[0-9]/.test(p) &&
+        /[-#!$@£%^&*()_+|~=`{}[\]:";'<>?,./\\ ]/.test(p),
+      { message: 'validation:fields.password.PASSWORD_WEAK' },
     ),
 })

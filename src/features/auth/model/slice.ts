@@ -2,12 +2,12 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 type AuthSessionState = {
   accessToken?: string
-  isAuth: boolean
+  authStatus: 'loading' | 'authenticated' | 'unauthenticated'
 }
 
 const initialState: AuthSessionState = {
   accessToken: undefined,
-  isAuth: false,
+  authStatus: 'loading',
 }
 
 export const authSessionSlice = createSlice({
@@ -16,11 +16,11 @@ export const authSessionSlice = createSlice({
   reducers: {
     setAccessToken(state, action: PayloadAction<string>) {
       state.accessToken = action.payload
-      state.isAuth = true
+      state.authStatus = 'authenticated'
     },
     logout(state) {
       state.accessToken = undefined
-      state.isAuth = false
+      state.authStatus = 'unauthenticated'
     },
   },
 })

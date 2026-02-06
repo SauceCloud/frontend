@@ -1,34 +1,20 @@
-import { useSelector } from '@/app/providers/store'
-import {
-  LoginDialog,
-  RegisterDialog,
-  useLogoutMutation,
-  selectIsAuth,
-} from '@/features/auth'
+import { useTranslation } from 'react-i18next'
+import { LoginDialog, RegisterDialog } from '@/features/auth'
 import { Button } from '@/shared/ui/button'
 
 export const AuthButtons = () => {
-  const isAuth = useSelector(selectIsAuth)
-  const [logout] = useLogoutMutation()
+  const { t } = useTranslation('auth')
 
   return (
     <div className="flex gap-2">
-      {isAuth ? (
-        <Button size="lg" onClick={() => logout()}>
-          Выйти
-        </Button>
-      ) : (
-        <>
-          <LoginDialog trigger={<Button size="lg">Вход</Button>} />
-          <RegisterDialog
-            trigger={
-              <Button size="lg" variant="secondary">
-                Регистрация
-              </Button>
-            }
-          />
-        </>
-      )}
+      <LoginDialog trigger={<Button size="lg">{t('login.title')}</Button>} />
+      <RegisterDialog
+        trigger={
+          <Button size="lg" variant="secondary">
+            {t('register.title')}
+          </Button>
+        }
+      />
     </div>
   )
 }

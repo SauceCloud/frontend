@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as z from 'zod'
 import { applyApiErrorToForm, isRtkqError } from '@/shared/api'
 import { Button } from '@/shared/ui/button'
-import { DialogFooter } from '@/shared/ui/dialog'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/shared/ui/field'
 import { Input } from '@/shared/ui/input'
 import { useLoginMutation } from '../../api/authApi'
@@ -15,6 +15,7 @@ type Props = {
 
 export const LoginForm = ({ onSubmit }: Props) => {
   const [login, { isLoading }] = useLoginMutation()
+  const { t } = useTranslation('auth')
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,7 +54,7 @@ export const LoginForm = ({ onSubmit }: Props) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="login-email">Почта</FieldLabel>
+              <FieldLabel htmlFor="login-email">{t('login.email')}</FieldLabel>
               <Input
                 {...field}
                 id="login-email"
@@ -71,7 +72,9 @@ export const LoginForm = ({ onSubmit }: Props) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="login-password">Пароль</FieldLabel>
+              <FieldLabel htmlFor="login-password">
+                {t('login.password')}
+              </FieldLabel>
               <Input
                 {...field}
                 id="login-password"
@@ -83,15 +86,14 @@ export const LoginForm = ({ onSubmit }: Props) => {
             </Field>
           )}
         />
+
+        <Field className="gap-3">
+          <FieldError errors={[form.formState.errors.root]} />
+          <Button type="submit" form="login-form" disabled={isLoading}>
+            {t('login.submit')}
+          </Button>
+        </Field>
       </FieldGroup>
-
-      <FieldError errors={[form.formState.errors.root]} />
-
-      <DialogFooter>
-        <Button type="submit" form="login-form" disabled={isLoading}>
-          Войти
-        </Button>
-      </DialogFooter>
     </form>
   )
 }

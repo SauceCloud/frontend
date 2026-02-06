@@ -2,11 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ChevronDownIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import * as z from 'zod'
 import { applyApiErrorToForm, isRtkqError } from '@/shared/api'
 import { Button } from '@/shared/ui/button'
 import { Calendar } from '@/shared/ui/calendar'
-import { DialogFooter } from '@/shared/ui/dialog'
 import {
   Field,
   FieldDescription,
@@ -26,6 +26,7 @@ type Props = {
 export const RegisterForm = ({ onSubmit }: Props) => {
   const [register, { isLoading }] = useRegisterMutation()
   const [calendarOpen, setCalendarOpen] = useState(false)
+  const { t } = useTranslation('auth')
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -73,7 +74,7 @@ export const RegisterForm = ({ onSubmit }: Props) => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="register-username">
-                Имя пользователя
+                {t('register.username')}
               </FieldLabel>
               <Input
                 {...field}
@@ -85,19 +86,20 @@ export const RegisterForm = ({ onSubmit }: Props) => {
               {fieldState.invalid ? (
                 <FieldError errors={[fieldState.error]} />
               ) : (
-                <FieldDescription>Введите уникальное значение</FieldDescription>
+                <FieldDescription>
+                  {t('register.usernameHint')}
+                </FieldDescription>
               )}
             </Field>
           )}
         />
-
         <Controller
           name="birthDate"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="register-birthDate">
-                Дата рождения
+                {t('register.birthdate')}
               </FieldLabel>
               <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                 <PopoverTrigger asChild>
@@ -109,7 +111,7 @@ export const RegisterForm = ({ onSubmit }: Props) => {
                   >
                     {field.value
                       ? new Date(field.value).toLocaleDateString()
-                      : 'Выбрать дату'}
+                      : t('register.pickDate')}
                     <ChevronDownIcon />
                   </Button>
                 </PopoverTrigger>
@@ -136,13 +138,14 @@ export const RegisterForm = ({ onSubmit }: Props) => {
             </Field>
           )}
         />
-
         <Controller
           name="email"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="register-email">Почта</FieldLabel>
+              <FieldLabel htmlFor="register-email">
+                {t('register.email')}
+              </FieldLabel>
               <Input
                 {...field}
                 id="register-email"
@@ -155,13 +158,14 @@ export const RegisterForm = ({ onSubmit }: Props) => {
             </Field>
           )}
         />
-
         <Controller
           name="password"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="register-password">Пароль</FieldLabel>
+              <FieldLabel htmlFor="register-password">
+                {t('register.password')}
+              </FieldLabel>
               <Input
                 {...field}
                 id="register-password"
@@ -174,18 +178,14 @@ export const RegisterForm = ({ onSubmit }: Props) => {
             </Field>
           )}
         />
+
+        <Field className="gap-3">
+          <FieldError errors={[form.formState.errors.root]} />
+          <Button type="submit" form="register-form" disabled={isLoading}>
+            {t('register.submit')}
+          </Button>
+        </Field>
       </FieldGroup>
-
-      <FieldError errors={[form.formState.errors.root]} />
-
-      <DialogFooter>
-        <Button type="button" variant="outline" onClick={() => form.reset()}>
-          Очистить
-        </Button>
-        <Button type="submit" form="register-form" disabled={isLoading}>
-          Зарегистрироваться
-        </Button>
-      </DialogFooter>
     </form>
   )
 }
