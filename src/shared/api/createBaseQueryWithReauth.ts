@@ -15,7 +15,7 @@ type CreateArgs<S> = {
   baseUrl: string
   getToken: GetToken<S>
   setTokenAction: (accessToken: string) => DispatchAction
-  logoutAction: () => DispatchAction
+  logoutAction: () => unknown
   isAuthEndpoint?: (url: string) => boolean
   refreshPath?: string
 }
@@ -80,6 +80,8 @@ export function createBaseQueryWithReauth<S>({
           } else {
             api.dispatch(logoutAction())
           }
+        } catch {
+          api.dispatch(logoutAction())
         } finally {
           release()
         }

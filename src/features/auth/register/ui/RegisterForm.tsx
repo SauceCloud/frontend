@@ -3,6 +3,7 @@ import { ChevronDownIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 import { applyApiErrorToForm, isRtkqError } from '@/shared/api'
 import { Button } from '@/shared/ui/button'
@@ -19,14 +20,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover'
 import { useRegisterMutation } from '../../api/authApi'
 import { formSchema } from '../model/schema'
 
-type Props = {
-  onSubmit: () => void
-}
-
-export const RegisterForm = ({ onSubmit }: Props) => {
+export const RegisterForm = () => {
   const [register, { isLoading }] = useRegisterMutation()
   const [calendarOpen, setCalendarOpen] = useState(false)
   const { t } = useTranslation('auth')
+  const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,7 +45,7 @@ export const RegisterForm = ({ onSubmit }: Props) => {
         email,
         password,
       }).unwrap()
-      onSubmit()
+      navigate('/', { replace: true })
     } catch (error) {
       if (!isRtkqError(error)) {
         form.setError('root', {

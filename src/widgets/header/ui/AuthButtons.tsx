@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { LoginDialog, RegisterDialog } from '@/features/auth'
+import { Link } from 'react-router-dom'
 import { Button } from '@/shared/ui/button'
 
 export const AuthButtons = () => {
@@ -7,14 +7,14 @@ export const AuthButtons = () => {
 
   return (
     <div className="flex gap-2">
-      <LoginDialog trigger={<Button size="lg">{t('login.title')}</Button>} />
-      <RegisterDialog
-        trigger={
-          <Button size="lg" variant="secondary">
-            {t('register.title')}
-          </Button>
-        }
-      />
+      <Link to="/sign-in">
+        <Button size="lg">{t('login.title')}</Button>
+      </Link>
+      <Link to="/sign-up">
+        <Button size="lg" variant="secondary">
+          {t('register.title')}
+        </Button>
+      </Link>
     </div>
   )
 }

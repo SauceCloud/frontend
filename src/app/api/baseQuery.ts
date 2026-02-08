@@ -1,3 +1,4 @@
+import { softLogout } from '@/features/auth/model/actions/softLogout'
 import { authSessionActions } from '@/features/auth/model/slice'
 import { createBaseQueryWithReauth } from '@/shared/api'
 import { API_URL } from '@/shared/config/env'
@@ -12,5 +13,5 @@ export const baseQuery = createBaseQueryWithReauth<AuthStateShape>({
   baseUrl: API_URL,
   getToken: state => state.authSession.accessToken,
   setTokenAction: token => authSessionActions.setAccessToken(token),
-  logoutAction: () => authSessionActions.logout(),
+  logoutAction: softLogout,
 })

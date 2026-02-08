@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@/app/api'
 import { currentUserActions } from '@/entities/user'
+import { softLogout } from '../model/actions/softLogout'
 import { authSessionActions } from '../model/slice'
 import type { AuthResponse, LoginDto, RegisterDto } from '../model/types'
 
@@ -15,9 +16,13 @@ export const authApi = createApi({
         body,
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled
-        dispatch(authSessionActions.setAccessToken(data.accessToken))
-        dispatch(currentUserActions.setUser(data.user))
+        try {
+          const { data } = await queryFulfilled
+          dispatch(authSessionActions.setAccessToken(data.accessToken))
+          dispatch(currentUserActions.setUser(data.user))
+        } catch {
+          dispatch(softLogout())
+        }
       },
     }),
     login: builder.mutation<AuthResponse, LoginDto>({
@@ -27,9 +32,13 @@ export const authApi = createApi({
         body,
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled
-        dispatch(authSessionActions.setAccessToken(data.accessToken))
-        dispatch(currentUserActions.setUser(data.user))
+        try {
+          const { data } = await queryFulfilled
+          dispatch(authSessionActions.setAccessToken(data.accessToken))
+          dispatch(currentUserActions.setUser(data.user))
+        } catch {
+          dispatch(softLogout())
+        }
       },
     }),
     logout: builder.mutation<void, void>({
@@ -41,8 +50,22 @@ export const authApi = createApi({
         try {
           await queryFulfilled
         } finally {
-          dispatch(authSessionActions.logout())
-          dispatch(currentUserActions.clearUser())
+          dispatch(softLogout())
+        }
+      },
+    }),
+    refresh: builder.mutation<AuthResponse, void>({
+      query: () => ({
+        url: '/auth/refresh',
+        method: 'POST',
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled
+          dispatch(authSessionActions.setAccessToken(data.accessToken))
+          dispatch(currentUserActions.setUser(data.user))
+        } catch {
+          dispatch(softLogout())
         }
       },
     }),

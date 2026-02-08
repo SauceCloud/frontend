@@ -1,4 +1,3 @@
-import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Dialog,
@@ -6,27 +5,26 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/shared/ui/dialog'
 import { LoginForm } from './LoginForm'
 
 type Props = {
-  trigger: ReactNode
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-export const LoginDialog = ({ trigger }: Props) => {
-  const [open, setOpen] = useState(false)
+export const LoginDialog = ({ open, onOpenChange }: Props) => {
   const { t } = useTranslation('auth')
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>{t('login.title')}</DialogTitle>
           <DialogDescription>{t('login.description')}</DialogDescription>
         </DialogHeader>
-        <LoginForm onSubmit={() => setOpen(false)} />
+
+        <LoginForm />
       </DialogContent>
     </Dialog>
   )

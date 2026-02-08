@@ -1,13 +1,15 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
+type AuthStatus = 'unknown' | 'authenticated' | 'unauthenticated'
+
 type AuthSessionState = {
   accessToken?: string
-  authStatus: 'loading' | 'authenticated' | 'unauthenticated'
+  authStatus: AuthStatus
 }
 
 const initialState: AuthSessionState = {
   accessToken: undefined,
-  authStatus: 'loading',
+  authStatus: 'unknown',
 }
 
 export const authSessionSlice = createSlice({
@@ -17,6 +19,9 @@ export const authSessionSlice = createSlice({
     setAccessToken(state, action: PayloadAction<string>) {
       state.accessToken = action.payload
       state.authStatus = 'authenticated'
+    },
+    setAuthStatus(state, action: PayloadAction<AuthStatus>) {
+      state.authStatus = action.payload
     },
     logout(state) {
       state.accessToken = undefined

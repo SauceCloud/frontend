@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 import { applyApiErrorToForm, isRtkqError } from '@/shared/api'
 import { Button } from '@/shared/ui/button'
@@ -9,13 +10,10 @@ import { Input } from '@/shared/ui/input'
 import { useLoginMutation } from '../../api/authApi'
 import { formSchema } from '../model/schema'
 
-type Props = {
-  onSubmit: () => void
-}
-
-export const LoginForm = ({ onSubmit }: Props) => {
+export const LoginForm = () => {
   const [login, { isLoading }] = useLoginMutation()
   const { t } = useTranslation('auth')
+  const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -28,7 +26,7 @@ export const LoginForm = ({ onSubmit }: Props) => {
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       await login(data).unwrap()
-      onSubmit()
+      navigate('/', { replace: true })
     } catch (error) {
       if (!isRtkqError(error)) {
         form.setError('root', {

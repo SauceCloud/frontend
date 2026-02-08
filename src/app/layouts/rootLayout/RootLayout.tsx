@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import { Header } from '@/widgets/header'
 
-const RootLayout = () => {
+export const RootLayout = () => {
   return (
     <div className="min-h-screen">
       <Header />
@@ -11,5 +11,3 @@ const RootLayout = () => {
     </div>
   )
 }
-
-export default RootLayout

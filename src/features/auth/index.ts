@@ -1,5 +1,5 @@
 export { authApi, useLogoutMutation } from './api/authApi'
 export { authSessionActions, authSessionReducer } from './model/slice'
 export { selectAuthStatus } from './model/selectors'
-export { LoginDialog } from './login/ui/LoginDialog'
-export { RegisterDialog } from './register/ui/RegisterDialog'
+export { AuthModalRoute } from './ui/AuthModalRoute'
+export { softLogout } from './model/actions/softLogout'
