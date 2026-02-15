@@ -8,22 +8,22 @@ import { Button } from '@/shared/ui/button'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/shared/ui/field'
 import { Input } from '@/shared/ui/input'
 import { useLoginMutation } from '../../api/authApi'
-import { formSchema } from '../model/schema'
+import { loginSchema } from '../model/schema'
 
 export const LoginForm = () => {
   const [login, { isLoading }] = useLoginMutation()
-  const { t } = useTranslation('auth')
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   })
 
-  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (data: z.infer<typeof loginSchema>) => {
     try {
       await login(data).unwrap()
       navigate('/', { replace: true })
@@ -52,7 +52,9 @@ export const LoginForm = () => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="login-email">{t('login.email')}</FieldLabel>
+              <FieldLabel htmlFor="login-email">
+                {t('common:fields.email')}
+              </FieldLabel>
               <Input
                 {...field}
                 id="login-email"
@@ -71,7 +73,7 @@ export const LoginForm = () => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="login-password">
-                {t('login.password')}
+                {t('common:fields.password')}
               </FieldLabel>
               <Input
                 {...field}
@@ -88,7 +90,7 @@ export const LoginForm = () => {
         <Field className="gap-3">
           <FieldError errors={[form.formState.errors.root]} />
           <Button type="submit" form="login-form" disabled={isLoading}>
-            {t('login.submit')}
+            {t('auth:login.submit')}
           </Button>
         </Field>
       </FieldGroup>

@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const formSchema = z.object({
+export const registerSchema = z.object({
   username: z
     .string('validation:fields.username.USERNAME_REQUIRED')
     .min(5, 'validation:fields.username.USERNAME_MIN')
@@ -24,3 +24,7 @@ export const formSchema = z.object({
       { message: 'validation:fields.password.PASSWORD_WEAK' },
     ),
 })
+
+export type RegisterDto = Omit<z.infer<typeof registerSchema>, 'birthDate'> & {
+  birthDate: string
+}

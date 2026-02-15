@@ -6,6 +6,9 @@
       "USERNAME_MAX": "Максимум 32 символа",
       "USERNAME_PATTERN": "Только латиница, цифры и _"
     },
+    "description": {
+      "DESCRIPTION_MAX": "Максимум 160 символов"
+    },
     "birthDate": {
       "BIRTHDATE_REQUIRED": "Укажите дату рождения",
       "BIRTHDATE_ISO": "Неверный формат даты",

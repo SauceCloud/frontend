@@ -1,9 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@/app/api'
 import { currentUserActions } from '@/entities/user'
+import type { LoginDto } from '../login/model/schema'
 import { softLogout } from '../model/actions/softLogout'
 import { authSessionActions } from '../model/slice'
-import type { AuthResponse, LoginDto, RegisterDto } from '../model/types'
+import type { AuthResponse } from '../model/types'
+import type { RegisterDto } from '../register/model/schema'
 
 export const authApi = createApi({
   reducerPath: 'authApi',

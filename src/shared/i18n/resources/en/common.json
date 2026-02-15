@@ -4,6 +4,22 @@
     "settings": "Settings"
   },
   "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
     "logout": "Log out"
+  },
+  "fields": {
+    "username": "Username",
+    "birthdate": "Date of birth",
+    "email": "Email",
+    "password": "Password",
+    "description": "Description"
+  },
+  "hints": {
+    "usernameUnique": "Enter a unique value",
+    "usernameChange": "Changing username may break existing links to your profile"
+  },
+  "placeholders": {
+    "pickDate": "Pick a date"
   }
 }

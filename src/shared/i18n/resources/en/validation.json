@@ -6,6 +6,9 @@
       "USERNAME_MAX": "Maximum 32 characters",
       "USERNAME_PATTERN": "Only Latin letters, numbers and underscores"
     },
+    "description": {
+      "DESCRIPTION_MAX": "Maximum 160 characters"
+    },
     "birthDate": {
       "BIRTHDATE_REQUIRED": "Date of birth is required",
       "BIRTHDATE_ISO": "Invalid date format",

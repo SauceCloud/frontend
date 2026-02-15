@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 import { applyApiErrorToForm, isRtkqError } from '@/shared/api'
+import { formatDateToYYYYMMDD } from '@/shared/lib/date'
 import { Button } from '@/shared/ui/button'
 import { Calendar } from '@/shared/ui/calendar'
 import {
@@ -18,16 +19,16 @@ import {
 import { Input } from '@/shared/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover'
 import { useRegisterMutation } from '../../api/authApi'
-import { formSchema } from '../model/schema'
+import { registerSchema } from '../model/schema'
 
 export const RegisterForm = () => {
   const [register, { isLoading }] = useRegisterMutation()
   const [calendarOpen, setCalendarOpen] = useState(false)
-  const { t } = useTranslation('auth')
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       username: '',
       email: '',
@@ -35,15 +36,11 @@ export const RegisterForm = () => {
     },
   })
 
-  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
-    const { username, birthDate, email, password } = data
-
+  const handleSubmit = async (data: z.infer<typeof registerSchema>) => {
     try {
       await register({
-        username,
-        birthDate: birthDate.toISOString(),
-        email,
-        password,
+        ...data,
+        birthDate: formatDateToYYYYMMDD(data.birthDate),
       }).unwrap()
       navigate('/', { replace: true })
     } catch (error) {
@@ -72,7 +69,7 @@ export const RegisterForm = () => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="register-username">
-                {t('register.username')}
+                {t('common:fields.username')}
               </FieldLabel>
               <Input
                 {...field}
@@ -85,7 +82,7 @@ export const RegisterForm = () => {
                 <FieldError errors={[fieldState.error]} />
               ) : (
                 <FieldDescription>
-                  {t('register.usernameHint')}
+                  {t('common:hints.usernameUnique')}
                 </FieldDescription>
               )}
             </Field>
@@ -97,7 +94,7 @@ export const RegisterForm = () => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="register-birthDate">
-                {t('register.birthdate')}
+                {t('common:fields.birthdate')}
               </FieldLabel>
               <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                 <PopoverTrigger asChild>
@@ -109,7 +106,7 @@ export const RegisterForm = () => {
                   >
                     {field.value
                       ? new Date(field.value).toLocaleDateString()
-                      : t('register.pickDate')}
+                      : t('common:placeholders.pickDate')}
                     <ChevronDownIcon />
                   </Button>
                 </PopoverTrigger>
@@ -142,7 +139,7 @@ export const RegisterForm = () => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="register-email">
-                {t('register.email')}
+                {t('common:fields.email')}
               </FieldLabel>
               <Input
                 {...field}
@@ -162,7 +159,7 @@ export const RegisterForm = () => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="register-password">
-                {t('register.password')}
+                {t('common:fields.password')}
               </FieldLabel>
               <Input
                 {...field}
@@ -180,7 +177,7 @@ export const RegisterForm = () => {
         <Field className="gap-3">
           <FieldError errors={[form.formState.errors.root]} />
           <Button type="submit" form="register-form" disabled={isLoading}>
-            {t('register.submit')}
+            {t('auth:register.submit')}
           </Button>
         </Field>
       </FieldGroup>
