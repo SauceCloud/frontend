@@ -1,0 +1,27 @@
+{
+  "fields": {
+    "username": {
+      "USERNAME_REQUIRED": "Укажите имя пользователя",
+      "USERNAME_MIN": "Минимум 5 символов",
+      "USERNAME_MAX": "Максимум 32 символа",
+      "USERNAME_PATTERN": "Только латиница, цифры и _"
+    },
+    "description": {
+      "DESCRIPTION_MAX": "Максимум 160 символов"
+    },
+    "birthDate": {
+      "BIRTHDATE_REQUIRED": "Укажите дату рождения",
+      "BIRTHDATE_ISO": "Неверный формат даты",
+      "BIRTHDATE_INVALID": "Дата рождения некорректна"
+    },
+    "email": {
+      "EMAIL_REQUIRED": "Укажите почту",
+      "EMAIL_INVALID": "Некорректная почта"
+    },
+    "password": {
+      "PASSWORD_REQUIRED": "Укажите пароль",
+      "PASSWORD_MIN": "Пароль должен содержать не менее 8 символов",
+      "PASSWORD_WEAK": "Пароль должен содержать не менее 8 символов, включая заглавные и строчные буквы, цифры и специальные символы"
+    }
+  }
+}

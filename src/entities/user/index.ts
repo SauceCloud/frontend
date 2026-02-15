@@ -1,0 +1,4 @@
+export { usersApi, useLazyGetMeQuery } from './api/usersApi'
+export { currentUserActions, currentUserReducer } from './model/slice'
+export { selectCurrentUser } from './model/selectors'
+export type { IUser } from './model/types'

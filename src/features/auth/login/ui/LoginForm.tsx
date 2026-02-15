@@ -1,0 +1,99 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import * as z from 'zod'
+import { applyApiErrorToForm, isRtkqError } from '@/shared/api'
+import { Button } from '@/shared/ui/button'
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/shared/ui/field'
+import { Input } from '@/shared/ui/input'
+import { useLoginMutation } from '../../api/authApi'
+import { loginSchema } from '../model/schema'
+
+export const LoginForm = () => {
+  const [login, { isLoading }] = useLoginMutation()
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  })
+
+  const handleSubmit = async (data: z.infer<typeof loginSchema>) => {
+    try {
+      await login(data).unwrap()
+      navigate('/', { replace: true })
+    } catch (error) {
+      if (!isRtkqError(error)) {
+        form.setError('root', {
+          type: 'server',
+          message: 'auth:errors.INTERNAL_ERROR',
+        })
+        return
+      }
+      applyApiErrorToForm(form, error.data)
+    }
+  }
+
+  return (
+    <form
+      id="login-form"
+      onSubmit={form.handleSubmit(handleSubmit)}
+      className="grid gap-3"
+      noValidate
+    >
+      <FieldGroup>
+        <Controller
+          name="email"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="login-email">
+                {t('common:fields.email')}
+              </FieldLabel>
+              <Input
+                {...field}
+                id="login-email"
+                aria-invalid={fieldState.invalid}
+                type="email"
+                autoComplete="email"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <Controller
+          name="password"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="login-password">
+                {t('common:fields.password')}
+              </FieldLabel>
+              <Input
+                {...field}
+                id="login-password"
+                aria-invalid={fieldState.invalid}
+                type="password"
+                autoComplete="current-password"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <Field className="gap-3">
+          <FieldError errors={[form.formState.errors.root]} />
+          <Button type="submit" form="login-form" disabled={isLoading}>
+            {t('auth:login.submit')}
+          </Button>
+        </Field>
+      </FieldGroup>
+    </form>
+  )
+}

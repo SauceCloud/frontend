@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "profile": "Профиль",
+    "settings": "Настройки"
+  },
+  "actions": {
+    "save": "Сохранить",
+    "cancel": "Отменить",
+    "logout": "Выйти"
+  },
+  "fields": {
+    "username": "Имя пользователя",
+    "birthdate": "Дата рождения",
+    "email": "Почта",
+    "password": "Пароль",
+    "description": "О себе"
+  },
+  "hints": {
+    "usernameUnique": "Введите уникальное значение",
+    "usernameChange": "Смена имени пользователя сделает нерабочими все старые ссылки на ваш профиль"
+  },
+  "placeholders": {
+    "pickDate": "Выбрать дату"
+  }
+}
