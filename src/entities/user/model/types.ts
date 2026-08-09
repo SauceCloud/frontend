@@ -1,10 +1,10 @@
 export interface IUserBase {
   username: string
-  description: string | null
+  description?: string
+  avatarUrl?: string
 }
 
 export interface IUser extends IUserBase {
   birthDate: string
-  description: string | null
   email: string
 }

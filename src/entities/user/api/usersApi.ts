@@ -17,6 +17,13 @@ export const usersApi = createApi({
         dispatch(currentUserActions.setUser(data))
       },
     }),
+
+    getByUsername: builder.query<IUser, { username: string }>({
+      query: args => ({
+        url: `/users/by-username/${args.username}`,
+        method: 'GET',
+      }),
+    }),
   }),
 })
 

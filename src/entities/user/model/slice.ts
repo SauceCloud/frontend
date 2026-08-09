@@ -16,6 +16,9 @@ export const currentUserSlice = createSlice({
     setUser(state, action: PayloadAction<IUser>) {
       state.user = action.payload
     },
+    updateUser(state, action: PayloadAction<Partial<IUser>>) {
+      if (state.user) state.user = { ...state.user, ...action.payload }
+    },
     clearUser(state) {
       state.user = undefined
     },

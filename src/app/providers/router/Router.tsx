@@ -1,6 +1,7 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom'
 import { rootLayoutLoader, RootLayout } from '@/app/layouts/rootLayout'
 import { AuthModalRoute } from '@/features/auth'
+import { ProfilePage, profilePageLoader } from '@/pages/profile'
 import { RouteErrorBoundary } from '@/shared/ui/RouteErrorBoundary'
 import { requireAuthLoader } from './requireAuthLoader'
 
@@ -30,6 +31,11 @@ export const router = createBrowserRouter([
             loader: requireAuthLoader(true),
           },
         ],
+      },
+      {
+        path: '/:username',
+        element: <ProfilePage />,
+        loader: profilePageLoader,
       },
       { path: '*', element: <p>Not found</p> },
     ],

@@ -1,10 +1,9 @@
 import { LogOutIcon, SettingsIcon, UserIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from '@/app/providers/store'
-import { selectCurrentUser } from '@/entities/user'
+import { selectCurrentUser, UserAvatar } from '@/entities/user'
 import { useLogoutMutation } from '@/features/auth'
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar'
 import { Button } from '@/shared/ui/button'
 import {
   DropdownMenu,
@@ -19,26 +18,31 @@ export const UserMenu = () => {
   const [logout] = useLogoutMutation()
   const { t } = useTranslation('common')
   const user = useSelector(selectCurrentUser)
+  const navigate = useNavigate()
 
   if (!user) return
+
+  const handleLogout = () => {
+    logout()
+    navigate('/', { replace: true })
+  }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
-          <Avatar size="lg">
-            <AvatarImage src={user.avatarUrl} alt="avatar" />
-            <AvatarFallback>
-              {user.username[0].toLocaleUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            avatarUrl={user.avatarUrl}
+            username={user.username}
+            size="lg"
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-32" sideOffset={6} align="end">
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <UserIcon />
-            <Link to="/profile">{t('nav.profile')}</Link>
+            <Link to={`/${user.username}`}>{t('nav.profile')}</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <SettingsIcon />
@@ -47,7 +51,11 @@ export const UserMenu = () => {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem variant="destructive" onClick={() => logout()}>
+          <DropdownMenuItem
+            variant="destructive"
+            className="cursor-pointer"
+            onClick={handleLogout}
+          >
             <LogOutIcon />
             {t('actions.logout')}
           </DropdownMenuItem>
